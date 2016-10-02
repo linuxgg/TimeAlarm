@@ -37,7 +37,7 @@ public class AlarmListFragment extends BaseFragment {
         for (int i = 0; i < 100; i++) {
             items.add("item: " + i);
         }
-        ArrayAdapter<String> alarmsAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_2, items);
+        ArrayAdapter<String> alarmsAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, items);
 
         alarmlistList.setAdapter(alarmsAdapter);
     }
