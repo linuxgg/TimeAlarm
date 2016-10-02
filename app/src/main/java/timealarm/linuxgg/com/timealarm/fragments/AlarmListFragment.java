@@ -1,17 +1,18 @@
 package timealarm.linuxgg.com.timealarm.fragments;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import timealarm.linuxgg.com.timealarm.R;
+import timealarm.linuxgg.com.timealarm.adapter.AlarmHistoryAdapter;
+import timealarm.linuxgg.com.timealarm.db.TableAlarmHistory;
 
 /**
  * Created by tom on 2016/10/2.<p>
@@ -33,12 +34,36 @@ public class AlarmListFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        List<String> items = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            items.add("item: " + i);
-        }
-        ArrayAdapter<String> alarmsAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, items);
 
-        alarmlistList.setAdapter(alarmsAdapter);
+
+
+        Cursor c = null;
+        try {
+            c = getActivity().getContentResolver().query(TableAlarmHistory.URI, null, null, null, null);
+            AlarmHistoryAdapter alarmsAdapter = new AlarmHistoryAdapter(getActivity(), c, true);
+
+            alarmlistList.setAdapter(alarmsAdapter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != c) {
+                c.close();
+            }
+        }
+
+
+        alarmlistList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Snackbar.make(view, "TODO: del", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                            }
+//                        })
+                        .show();
+            }
+        });
     }
 }

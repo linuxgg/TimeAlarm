@@ -6,4 +6,5 @@
 
     <string name="action_settings">Settings</string>
     <string name="alarm">Alarm</string>
+    <string name="used_for_setting_alarms">used for setting alarms</string>
 </resources>

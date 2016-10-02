@@ -18,6 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <provider
+            android:name=".db.MyContantProvider"
+            android:authorities="timealarm.linuxgg.com.timealarm.my_provider"
+            android:exported="false"/>
     </application>
 
 </manifest>

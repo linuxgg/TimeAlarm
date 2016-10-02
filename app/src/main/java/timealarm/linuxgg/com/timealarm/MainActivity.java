@@ -3,7 +3,6 @@ package timealarm.linuxgg.com.timealarm;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,11 +13,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import timealarm.linuxgg.com.timealarm.db.TableAlarmHistory;
 import timealarm.linuxgg.com.timealarm.fragments.AlarmListFragment;
 import timealarm.linuxgg.com.timealarm.fragments.BaseFragment;
+import timealarm.linuxgg.com.timealarm.models.AlarmItem;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +34,10 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO add new alarm
-                Snackbar.make(view, "TODO: add new alarm", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                addNewAlarm();
             }
+
+
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -43,8 +46,19 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        onNavigationItemSelected(navigationView.getMenu().getItem(0));
+    }
+
+    private void addNewAlarm() {
+        AlarmItem ai = new AlarmItem();
+        ai.setDESC("desc");
+        ai.setEND_TIME(System.currentTimeMillis() + "");
+        ai.setSTART_TIME((System.currentTimeMillis() + 10000) + "");
+        ai.setHAS_AUDIO(TableAlarmHistory.HAS_AUDIO_TYPE.NO.name());
+        TableAlarmHistory.insertSingle(getApplicationContext(), ai);
+
     }
 
     @Override
@@ -60,7 +74,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -78,6 +92,7 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -101,9 +116,9 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         if (bf != null) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.main_ll, bf);
             fragmentTransaction.commit();
         }
@@ -113,4 +128,12 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+
 }
