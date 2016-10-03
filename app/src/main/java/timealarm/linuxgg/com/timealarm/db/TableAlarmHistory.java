@@ -76,6 +76,7 @@ public class TableAlarmHistory extends BaseTable {
         values.put(END_TIME, item.getEND_TIME());
         values.put(HAS_AUDIO, item.getHAS_AUDIO());
         cr.insert(URI, values);
+
     }
 
     public static void insertMulti(Context context, List<AlarmItem> items) {
