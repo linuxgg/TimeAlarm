@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import timealarm.linuxgg.com.timealarm.R;
 import timealarm.linuxgg.com.timealarm.adapter.AlarmHistoryAdapter;
@@ -30,14 +29,11 @@ public class AlarmListFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.alarmlist_layout, null);
         alarmlistList = (ListView) rootView.findViewById(R.id.alarmlist_list);
+        initDATA();
         return rootView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-
+    private void initDATA() {
         try {
             c = getActivity().getContentResolver().query(TableAlarmHistory.URI, null, null, null, null);
 
@@ -49,17 +45,8 @@ public class AlarmListFragment extends BaseFragment {
 
             AlarmHistoryAdapter alarmsAdapter = new AlarmHistoryAdapter(getActivity(), c, true);
 
-
-            TextView footer = new TextView(getContext());
-            footer.setText("footer");
-
-
-            TextView header = new TextView(getContext());
-            header.setText("header");
-            alarmlistList.addFooterView(footer);
-            alarmlistList.addHeaderView(header);
             alarmlistList.setAdapter(alarmsAdapter);
-            alarmsAdapter.notifyDataSetChanged();
+//            alarmsAdapter.notifyDataSetChanged();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,13 +65,23 @@ public class AlarmListFragment extends BaseFragment {
                         .show();
             }
         });
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        alarmsAdapter.notifyDataSetChanged();
+
+
     }
 
     private Cursor c;
 
+
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroy() {
+        super.onDestroy();
         try {
             if (null != c) {
                 c.close();

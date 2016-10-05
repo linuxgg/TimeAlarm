@@ -3,7 +3,6 @@ package timealarm.linuxgg.com.timealarm.adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,27 +19,15 @@ import timealarm.linuxgg.com.timealarm.utils.DateFormatUtils;
  */
 public class AlarmHistoryAdapter extends CursorAdapter {
     private final String TAG = AlarmHistoryAdapter.class.getSimpleName();
-    private Cursor c;
-    private Context context;
 
     public AlarmHistoryAdapter(Context context, Cursor c, boolean autoRequery) {
         super(context, c, autoRequery);
-        Log.d(TAG, "in AlarmHistoryAdapter");
-        this.c = c;
-        Log.d(TAG, "in AlarmHistoryAdapter c::" + c.getCount());
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return super.getView(position, convertView, parent);
-    }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        Log.d(TAG, "adapter create view");
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View v = LayoutInflater.from(context).inflate(R.layout.alarmhistory_item_layout, viewGroup, false);
-        View v = inflater.inflate(R.layout.alarmhistory_item_layout, viewGroup, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.alarmhistory_item_layout, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder();
         viewHolder.recoredId = (TextView) v.findViewById(R.id.alarmlist_list_item_id);
         viewHolder.desc = (TextView) v.findViewById(R.id.alarmlist_list_item_desc);
@@ -53,7 +40,6 @@ public class AlarmHistoryAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        Log.d(TAG, "adapter bindView view");
         ViewHolder viewHolder = (ViewHolder) view.getTag();
         viewHolder.recoredId.setText("ID: " + cursor.getString(cursor.getColumnIndexOrThrow(TableAlarmHistory.ID)));
         viewHolder.desc.setText("Description: " + cursor.getString(cursor.getColumnIndexOrThrow(TableAlarmHistory.DESC)));
