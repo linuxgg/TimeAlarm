@@ -1,12 +1,15 @@
 package timealarm.linuxgg.com.timealarm;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -52,12 +55,31 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void addNewAlarm() {
-        AlarmItem ai = new AlarmItem();
-        ai.setDESC("desc");
-        ai.setEND_TIME(System.currentTimeMillis() + "");
-        ai.setSTART_TIME((System.currentTimeMillis() + 10000) + "");
-        ai.setHAS_AUDIO(TableAlarmHistory.HAS_AUDIO_TYPE.NO.name());
-        TableAlarmHistory.insertSingle(getApplicationContext(), ai);
+
+
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Add new alarm.")
+                .setNeutralButton("Record", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Snackbar.make(findViewById(R.id.main_ll), "record", Snackbar.LENGTH_SHORT).show();
+                    }
+                })
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        AlarmItem ai = new AlarmItem();
+                        ai.setDESC("desc");
+                        ai.setEND_TIME(System.currentTimeMillis() + "");
+                        ai.setSTART_TIME((System.currentTimeMillis() + 10000) + "");
+                        ai.setHAS_AUDIO(TableAlarmHistory.HAS_AUDIO_TYPE.NO.name());
+                        TableAlarmHistory.insertSingle(getApplicationContext(), ai);
+                        Snackbar.make(findViewById(R.id.main_ll), "saved", Snackbar.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+
 
     }
 
