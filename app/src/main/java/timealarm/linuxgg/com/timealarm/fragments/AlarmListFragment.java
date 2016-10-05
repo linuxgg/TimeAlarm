@@ -4,11 +4,13 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import timealarm.linuxgg.com.timealarm.R;
 import timealarm.linuxgg.com.timealarm.adapter.AlarmHistoryAdapter;
@@ -36,19 +38,30 @@ public class AlarmListFragment extends BaseFragment {
         super.onResume();
 
 
-
-        Cursor c = null;
         try {
             c = getActivity().getContentResolver().query(TableAlarmHistory.URI, null, null, null, null);
+
+            if (c != null && c.moveToFirst()) {
+                do {
+                    Log.d("", c.getString(c.getColumnIndex(TableAlarmHistory.START_TIME)));
+                } while (c.moveToNext());
+            }
+
             AlarmHistoryAdapter alarmsAdapter = new AlarmHistoryAdapter(getActivity(), c, true);
 
+
+            TextView footer = new TextView(getContext());
+            footer.setText("footer");
+
+
+            TextView header = new TextView(getContext());
+            header.setText("header");
+            alarmlistList.addFooterView(footer);
+            alarmlistList.addHeaderView(header);
             alarmlistList.setAdapter(alarmsAdapter);
+            alarmsAdapter.notifyDataSetChanged();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (null != c) {
-                c.close();
-            }
         }
 
 
@@ -65,5 +78,19 @@ public class AlarmListFragment extends BaseFragment {
                         .show();
             }
         });
+    }
+
+    private Cursor c;
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            if (null != c) {
+                c.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

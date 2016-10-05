@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +77,7 @@ public class TableAlarmHistory extends BaseTable {
         values.put(END_TIME, item.getEND_TIME());
         values.put(HAS_AUDIO, item.getHAS_AUDIO());
         cr.insert(URI, values);
-
+        Log.d(TAG, "insert:" + values.toString());
     }
 
     public static void insertMulti(Context context, List<AlarmItem> items) {

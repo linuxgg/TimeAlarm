@@ -55,8 +55,23 @@ public class MyContantProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Cursor query(Uri uri, String[] strings, String s, String[] strings1, String s1) {
-        return null;
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        Log.d("", "query");
+        SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
+        switch (uriMatcher.match(uri)) {
+            case URI_SINGLE_PATH_CODE:
+                selection = BaseTable.ID + "=" + uri.getPathSegments().get(1) + (!TextUtils.isEmpty(selection) ? " and (" + selection + ")" : "");
+                Log.d(TAG, "selection:" + selection);
+                Cursor cursor = sqLiteDatabase.query(TableAlarmHistory.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+                cursor.setNotificationUri(getContext().getContentResolver(), TableAlarmHistory.URI);
+                return cursor;
+            case URI_MULTI_PATH_CODE:
+                Cursor cursor2 = sqLiteDatabase.query(TableAlarmHistory.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+                cursor2.setNotificationUri(getContext().getContentResolver(), TableAlarmHistory.URI);
+                return cursor2;
+            default:
+                return null;
+        }
     }
 
     @Nullable
