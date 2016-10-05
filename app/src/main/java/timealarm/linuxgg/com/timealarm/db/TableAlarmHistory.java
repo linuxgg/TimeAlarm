@@ -32,6 +32,7 @@ public class TableAlarmHistory extends BaseTable {
     public static final String START_TIME = "start_time";
     public static final String END_TIME = "end_time";
     public static final String HAS_AUDIO = "has_audio";
+    public static final String AUDIO_PATH = "audio_path";
 
     public static final Uri URI = Uri.parse(MyContantProvider.URI_PREFIX + TABLE_NAME);
 
@@ -41,9 +42,10 @@ public class TableAlarmHistory extends BaseTable {
             DESC + " text  , " +
             START_TIME + " text not null, " +
             END_TIME + " text not null, " +
+            AUDIO_PATH + " text not null, " +
             HAS_AUDIO + " text not null);";
 
-    public static final String DROP_TABLE = "if exists " + TABLE_NAME + " drop table;";
+    public static final String DROP_TABLE = "Drop table if exists "+ TABLE_NAME;
 
 
     public enum HAS_AUDIO_TYPE {
@@ -76,6 +78,7 @@ public class TableAlarmHistory extends BaseTable {
         values.put(START_TIME, item.getSTART_TIME());
         values.put(END_TIME, item.getEND_TIME());
         values.put(HAS_AUDIO, item.getHAS_AUDIO());
+        values.put(AUDIO_PATH, item.getAUDIO_PATH());
         cr.insert(URI, values);
         Log.d(TAG, "insert:" + values.toString());
     }
@@ -89,6 +92,7 @@ public class TableAlarmHistory extends BaseTable {
             value.put(START_TIME, items.get(i).getSTART_TIME());
             value.put(END_TIME, items.get(i).getEND_TIME());
             value.put(HAS_AUDIO, items.get(i).getHAS_AUDIO());
+            value.put(AUDIO_PATH, items.get(i).getAUDIO_PATH());
         }
         cr.bulkInsert(URI, values);
     }
@@ -134,6 +138,7 @@ public class TableAlarmHistory extends BaseTable {
                 alarmItem.setDESC(cursor.getString(cursor.getColumnIndexOrThrow(TableAlarmHistory.DESC)));
                 alarmItem.setSTART_TIME(cursor.getString(cursor.getColumnIndexOrThrow(TableAlarmHistory.START_TIME)));
                 alarmItem.setEND_TIME(cursor.getString(cursor.getColumnIndexOrThrow(TableAlarmHistory.END_TIME)));
+                alarmItem.setAUDIO_PATH(cursor.getString(cursor.getColumnIndexOrThrow(TableAlarmHistory.AUDIO_PATH)));
                 alarms.add(alarmItem);
 
             } while (cursor.moveToNext());

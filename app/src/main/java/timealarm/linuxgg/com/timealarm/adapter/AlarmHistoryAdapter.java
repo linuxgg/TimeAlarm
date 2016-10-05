@@ -34,6 +34,7 @@ public class AlarmHistoryAdapter extends CursorAdapter {
         viewHolder.start = (TextView) v.findViewById(R.id.alarmlist_list_item_start);
         viewHolder.end = (TextView) v.findViewById(R.id.alarmlist_list_item_end);
         viewHolder.hasAudio = (TextView) v.findViewById(R.id.alarmlist_list_item_has_audio);
+        viewHolder.audioPath = (TextView) v.findViewById(R.id.alarmlist_list_item_audio_path);
         v.setTag(viewHolder);
         return v;
     }
@@ -62,6 +63,7 @@ public class AlarmHistoryAdapter extends CursorAdapter {
         viewHolder.start.setText("Start Time:" + DateFormatUtils.getNormalDateFormatString(Long.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(TableAlarmHistory.START_TIME)))));
         viewHolder.end.setText("End Time:" + DateFormatUtils.getNormalDateFormatString(Long.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(TableAlarmHistory.END_TIME)))));
         viewHolder.hasAudio.setText("Has Audio" + cursor.getString(cursor.getColumnIndexOrThrow(TableAlarmHistory.HAS_AUDIO)));
+        viewHolder.audioPath.setText("Audio Path" + cursor.getString(cursor.getColumnIndexOrThrow(TableAlarmHistory.AUDIO_PATH)));
 
     }
 
@@ -71,5 +73,6 @@ public class AlarmHistoryAdapter extends CursorAdapter {
         public TextView start;
         public TextView end;
         public TextView hasAudio;
+        public TextView audioPath;
     }
 }

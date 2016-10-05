@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,14 +39,7 @@ public class AlarmListFragment extends BaseFragment {
         try {
             c = getActivity().getContentResolver().query(TableAlarmHistory.URI, null, null, null, null);
 
-            if (c != null && c.moveToFirst()) {
-                do {
-                    Log.d("", c.getString(c.getColumnIndex(TableAlarmHistory.START_TIME)));
-                } while (c.moveToNext());
-            }
-
             AlarmHistoryAdapter alarmsAdapter = new AlarmHistoryAdapter(getActivity(), c, true);
-
 
             alarmlistList.setAdapter(alarmsAdapter);
             alarmlistList.setEmptyView(rootView.findViewById(R.id.list_empty));

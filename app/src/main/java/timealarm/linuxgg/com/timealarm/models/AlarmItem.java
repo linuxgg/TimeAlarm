@@ -13,6 +13,15 @@ public class AlarmItem implements Serializable {
     private String END_TIME = "end_time";
     private String HAS_AUDIO = "has_audio";
     private String DESC = "has_audio";
+    private String AUDIO_PATH = "audio_path";
+
+    public String getAUDIO_PATH() {
+        return AUDIO_PATH;
+    }
+
+    public void setAUDIO_PATH(String AUDIO_PATH) {
+        this.AUDIO_PATH = AUDIO_PATH;
+    }
 
     public Long getID() {
         return ID;
@@ -62,6 +71,7 @@ public class AlarmItem implements Serializable {
                 ", END_TIME='" + END_TIME + '\'' +
                 ", HAS_AUDIO='" + HAS_AUDIO + '\'' +
                 ", DESC='" + DESC + '\'' +
+                ", AUDIO_PATH='" + AUDIO_PATH + '\'' +
                 '}';
     }
 }
