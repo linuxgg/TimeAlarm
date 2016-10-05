@@ -38,10 +38,26 @@ public class AlarmHistoryAdapter extends CursorAdapter {
         return v;
     }
 
+    int id = 0;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        setId(position);
+        return super.getView(position, convertView, parent);
+    }
+
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-        viewHolder.recoredId.setText("ID: " + cursor.getString(cursor.getColumnIndexOrThrow(TableAlarmHistory.ID)));
+        viewHolder.recoredId.setText("ID: " + getId());
         viewHolder.desc.setText("Description: " + cursor.getString(cursor.getColumnIndexOrThrow(TableAlarmHistory.DESC)));
         viewHolder.start.setText("Start Time:" + DateFormatUtils.getNormalDateFormatString(Long.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(TableAlarmHistory.START_TIME)))));
         viewHolder.end.setText("End Time:" + DateFormatUtils.getNormalDateFormatString(Long.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(TableAlarmHistory.END_TIME)))));

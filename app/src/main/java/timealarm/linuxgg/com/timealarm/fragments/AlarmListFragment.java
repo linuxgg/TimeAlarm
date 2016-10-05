@@ -46,8 +46,9 @@ public class AlarmListFragment extends BaseFragment {
 
             AlarmHistoryAdapter alarmsAdapter = new AlarmHistoryAdapter(getActivity(), c, true);
 
+
             alarmlistList.setAdapter(alarmsAdapter);
-//            alarmsAdapter.notifyDataSetChanged();
+            alarmlistList.setEmptyView(rootView.findViewById(R.id.list_empty));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,14 +73,6 @@ public class AlarmListFragment extends BaseFragment {
                         .show();
             }
         });
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-//        alarmsAdapter.notifyDataSetChanged();
-
 
     }
 
