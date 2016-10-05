@@ -1,10 +1,12 @@
 package timealarm.linuxgg.com.timealarm.fragments;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,19 +60,37 @@ public class AlarmListFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                c.moveToPosition(i);
-                final int recordID = c.getInt(c.getColumnIndexOrThrow(TableAlarmHistory.ID));
-                Uri delRecord = Uri.parse(TableAlarmHistory.URI + "/" + recordID);
-                getActivity().getContentResolver().delete(delRecord, null, null);
+                Snackbar.make(rootView, "TODO:: will open detail page", Snackbar.LENGTH_LONG).show();
+            }
+        });
 
-                Snackbar.make(view, "TODO: del " + i, Snackbar.LENGTH_LONG)
-                        .setAction("Action", new View.OnClickListener() {
+
+        alarmlistList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                c.moveToPosition(position);
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Warning!")
+                        .setMessage("will del this item?")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(View view) {
-
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                final int recordID = c.getInt(c.getColumnIndexOrThrow(TableAlarmHistory.ID));
+                                Uri delRecord = Uri.parse(TableAlarmHistory.URI + "/" + recordID);
+                                int delCount = getActivity().getContentResolver().delete(delRecord, null, null);
+                                String delMessage = "Fail, please try again.";
+                                if (delCount != 0) {
+                                    delMessage = "Success!";
+                                }
+                                Snackbar.make(rootView, delMessage, Snackbar.LENGTH_LONG).show();
                             }
                         })
+                        .setNegativeButton("Cancel", null)
                         .show();
+
+
+                return true;
             }
         });
 
