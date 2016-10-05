@@ -1,6 +1,7 @@
 package timealarm.linuxgg.com.timealarm.fragments;
 
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -55,13 +56,19 @@ public class AlarmListFragment extends BaseFragment {
         alarmlistList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Snackbar.make(view, "TODO: del", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//
-//                            }
-//                        })
+
+                c.moveToPosition(i);
+                final int recordID = c.getInt(c.getColumnIndexOrThrow(TableAlarmHistory.ID));
+                Uri delRecord = Uri.parse(TableAlarmHistory.URI + "/" + recordID);
+                getActivity().getContentResolver().delete(delRecord, null, null);
+
+                Snackbar.make(view, "TODO: del " + i, Snackbar.LENGTH_LONG)
+                        .setAction("Action", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        })
                         .show();
             }
         });
